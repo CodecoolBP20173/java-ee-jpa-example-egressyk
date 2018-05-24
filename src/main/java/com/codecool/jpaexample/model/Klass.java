@@ -4,8 +4,14 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name="class")
 public class Klass {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
+    @OneToMany(mappedBy = "klass", cascade=CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
     public Klass() {}
@@ -28,6 +34,7 @@ public class Klass {
 
     public void addStudent(Student student) {
         students.add(student);
+        student.setKlass(this);
     }
 
 }

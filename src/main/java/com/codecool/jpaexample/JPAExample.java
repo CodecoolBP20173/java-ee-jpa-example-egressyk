@@ -8,8 +8,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class JPAExample {
 
@@ -26,23 +25,27 @@ public class JPAExample {
 
         Klass classBp2 = new Klass("Budapest 2016-2");
         Address address = new Address("Hungary", "1234", "Budapest", "Macskakő út 5.");
-        Student student = new Student("Ödön", "odon@tokodon.hu", birthDate1, address);
+        List<String> phoneNumbers1 = new ArrayList<>(Arrays.asList("0670345223", "0612439987"));
+        Student student = new Student("Ödön", "odon@tokodon.hu", birthDate1, phoneNumbers1, address);
         classBp2.addStudent(student);
 
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(address);
         em.persist(student);
+        em.persist(classBp2);
         transaction.commit();
         System.out.println("Ödön saved.");
 
         Address address2 = new Address("Hungary", "6789", "Budapest", "Harap u. 3.");
-        Student student2 = new Student("Aladár", "ktyfl@gmail.com", birthDate2, address);
+        List<String> phoneNumbers2 = new ArrayList<>(Arrays.asList("0630625253", "0612464912"));
+        Student student2 = new Student("Aladár", "ktyfl@gmail.com", birthDate2, phoneNumbers2, address2);
         classBp2.addStudent(student2);
 
         transaction.begin();
         em.persist(student2);
         em.persist(address2);
+        em.persist(classBp2);
         transaction.commit();
         System.out.println("Aladár saved.");
     }

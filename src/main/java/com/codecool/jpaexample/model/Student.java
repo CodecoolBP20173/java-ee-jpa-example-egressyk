@@ -1,5 +1,9 @@
 package com.codecool.jpaexample.model;
 
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,30 +19,42 @@ public class Student {
 
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
+    @Transient
     private long age;
 
-    @OneToOne
+    @OneToOne()
     private Address address;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Klass klass;
+
+    @ElementCollection
+    @CollectionTable(name = "Phone") //How to tell Hibernate to create id column for this table?
+    private List<String> phoneNumbers;
 
     public Student() {
     }
 
-    public Student(String name, String email, Date dateOfBirth) {
+    public Student(String name, String email, Date dateOfBirth, List<String> phoneNumbers) {
         this.name = name;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.age = (Calendar.getInstance().getTimeInMillis() - dateOfBirth.getTime())
                 / (60L * 60L * 1000L * 24L * 365L);
+        this.phoneNumbers = phoneNumbers;
+
     }
 
-    public Student(String name, String email, Date dateOfBirth, Address address) {
-        this(name, email, dateOfBirth);
+    public Student(String name, String email, Date dateOfBirth, List<String> phoneNumbers, Address address) {
+        this(name, email, dateOfBirth, phoneNumbers);
         this.address = address;
+        address.setStudent(this);
     }
 
     public long getId() {
@@ -83,6 +99,22 @@ public class Student {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Klass getKlass() {
+        return klass;
+    }
+
+    public void setKlass(Klass klass) {
+        this.klass = klass;
+    }
+
+    public List<String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(List<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     @Override
