@@ -1,10 +1,13 @@
 package com.codecool.jpaexample.model;
 
 import javax.persistence.*;
+import java.util.Random;
 
 
 @Entity
 public class Address {
+    static private Random random = new Random();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,6 +25,7 @@ public class Address {
     }
 
     public Address(String country, String zipcode, String city, String addr) {
+        //this.id = random.nextInt(100) + 100;
         this.country = country;
         this.zipcode = zipcode;
         this.city = city;
@@ -84,6 +88,7 @@ public class Address {
                 ", zipcode='" + zipcode + '\'' +
                 ", city='" + city + '\'' +
                 ", addr='" + addr + '\'' +
+                ", student='" + student.getName() + '\'' +
                 '}';
     }
 

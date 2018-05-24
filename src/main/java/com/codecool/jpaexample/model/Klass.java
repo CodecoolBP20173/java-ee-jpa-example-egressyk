@@ -11,13 +11,16 @@ public class Klass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CCLocation location;
     @OneToMany(mappedBy = "klass", cascade=CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
     public Klass() {}
 
-    public Klass(String name) {
+    public Klass(String name, CCLocation location) {
         this.name = name;
+        this.location = location;
     }
 
     public String getName() {

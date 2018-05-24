@@ -23,7 +23,8 @@ public class JPAExample {
             e.printStackTrace();
         }
 
-        Klass classBp2 = new Klass("Budapest 2016-2");
+        Klass classBp2 = new Klass("Budapest 2016-2", CCLocation.BUDAPEST);
+        Klass classBp3 = new Klass("Krakow 2016-3", CCLocation.KRAKOW);
         Address address = new Address("Hungary", "1234", "Budapest", "Macskakő út 5.");
         List<String> phoneNumbers1 = new ArrayList<>(Arrays.asList("0670345223", "0612439987"));
         Student student = new Student("Ödön", "odon@tokodon.hu", birthDate1, phoneNumbers1, address);
@@ -34,6 +35,7 @@ public class JPAExample {
         em.persist(address);
         em.persist(student);
         em.persist(classBp2);
+        em.persist(classBp3);
         transaction.commit();
         System.out.println("Ödön saved.");
 
